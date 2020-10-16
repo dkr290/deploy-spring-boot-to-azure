@@ -108,7 +108,7 @@
         "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('hostingPlanName'))]",
         
         "clientAffinityEnabled": false
-        }
+        
       },
       "resources": [
         {
