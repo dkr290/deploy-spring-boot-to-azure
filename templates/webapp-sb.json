@@ -75,6 +75,7 @@
       "name": "[parameters('hostingPlanName')]",
       "type": "Microsoft.Web/serverfarms",
       "location": "[parameters('location')]",
+      "kind": "linux",
       "tags": {
         "displayName": "HostingPlan"
       },
