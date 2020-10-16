@@ -57,11 +57,11 @@ stages:
               csmParametersFile: 'templates/webapp-sp.parameters.json'
               overrideParameters: '-hostingPlanName $(hostingPlanName) -location $(location) -webSiteName $(webSiteName) -skuName $(skuName)'
               deploymentMode: 'Incremental'
-- stage: DeployToWebapp
-  jobs:
-  - deployment: DeployToWebapp
-    environment: Production
-    strategy:
-      runOnce:
-        deploy:
-          steps:
+# - stage: DeployToWebapp
+#   jobs:
+#   - deployment: DeployToWebapp
+#     environment: Production
+#     strategy:
+#       runOnce:
+#         deploy:
+#           steps:
