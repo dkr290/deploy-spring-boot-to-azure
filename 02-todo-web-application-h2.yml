@@ -10,7 +10,7 @@ stages:
 
 - stage: Build
   jobs:
-  - job: Build_Maven_app
+  - job: Build_springboot_app
     pool:
       vmImage: 'ubuntu-latest'
 
@@ -35,7 +35,23 @@ stages:
         PathtoPublish: '$(Build.ArtifactStagingDirectory)'
         ArtifactName: 'drop'
         publishLocation: 'Container'
-      
+- stage: Create the templates for webapp
+  jobs:
+  - job: App Service Json
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - task: CopyFiles@2
+      inputs:
+        SourceFolder: '$(system.defaultworkingdirectory)/templates'
+        Contents: '**/*.json'
+        TargetFolder: '$(Build.ArtifactStagingDirectory)'
+    - task: PublishBuildArtifacts@1
+      inputs:
+        PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+        ArtifactName: 'drop'
+        publishLocation: 'Container'
+        
 - stage: CreateWebapp
   jobs:
   - deployment: DeployToWebapp
@@ -53,8 +69,8 @@ stages:
               resourceGroupName: '$(resourceGroup)'
               location: '$(location)'
               templateLocation: 'Linked artifact'
-              csmFile: 'templates/webapp-sp.json'
-              csmParametersFile: 'templates/webapp-sp.parameters.json'
+              csmFile: '$(Pipeline.Workspace)/drop/webapp-sp.json'
+              csmParametersFile: '$(Pipeline.Workspace)/drop/webapp-sp.parameters.json'
               overrideParameters: '-hostingPlanName $(hostingPlanName) -location $(location) -webSiteName $(webSiteName) -skuName $(skuName)'
               deploymentMode: 'Incremental'
 # - stage: DeployToWebapp
