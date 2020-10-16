@@ -73,11 +73,17 @@ stages:
               csmParametersFile: '$(Pipeline.Workspace)/drop/webapp-sb.parameters.json'
               overrideParameters: '-hostingPlanName $(hostingPlanName) -location $(location) -webSiteName $(webSiteName) -skuName $(skuName)'
               deploymentMode: 'Incremental'
-# - stage: DeployToWebapp
-#   jobs:
-#   - deployment: DeployToWebapp
-#     environment: Production
-#     strategy:
-#       runOnce:
-#         deploy:
-#           steps:
+- stage: DeployToWebapp
+  jobs:
+  - deployment: DeployToWebapp
+    environment: Production
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - task: AzureWebApp@1
+            inputs:
+              azureSubscription: 'FreeOneYear(5f7292bd-e975-43ef-aa61-1871cb2a573d)'
+              appType: 'webAppLinux'
+              appName: '$(webSiteName)'
+              package: '$(Pipeline.Workspace)/drop/02-todo-web-application-h2/target/**/*.war'
