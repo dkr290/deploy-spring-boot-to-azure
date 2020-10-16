@@ -69,8 +69,8 @@ stages:
               resourceGroupName: '$(resourceGroup)'
               location: '$(location)'
               templateLocation: 'Linked artifact'
-              csmFile: '$(Pipeline.Workspace)/drop/webapp-sp.json'
-              csmParametersFile: '$(Pipeline.Workspace)/drop/webapp-sp.parameters.json'
+              csmFile: '$(Pipeline.Workspace)/drop/webapp-sb.json'
+              csmParametersFile: '$(Pipeline.Workspace)/drop/webapp-sb.parameters.json'
               overrideParameters: '-hostingPlanName $(hostingPlanName) -location $(location) -webSiteName $(webSiteName) -skuName $(skuName)'
               deploymentMode: 'Incremental'
 # - stage: DeployToWebapp
