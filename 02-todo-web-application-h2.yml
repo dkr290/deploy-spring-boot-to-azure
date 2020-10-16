@@ -35,7 +35,7 @@ stages:
         PathtoPublish: '$(Build.ArtifactStagingDirectory)'
         ArtifactName: 'drop'
         publishLocation: 'Container'
-- stage: Create the templates for webapp
+- stage: WebappTemplate
   jobs:
   - job: App_Service_Json
     pool:
@@ -54,7 +54,7 @@ stages:
         
 - stage: CreateWebapp
   jobs:
-  - deployment: DeployToWebapp
+  - deployment: CreateWebapp
     environment: Production
     strategy:
       runOnce:
@@ -69,15 +69,21 @@ stages:
               resourceGroupName: '$(resourceGroup)'
               location: '$(location)'
               templateLocation: 'Linked artifact'
-              csmFile: '$(Pipeline.Workspace)/drop/webapp-sp.json'
-              csmParametersFile: '$(Pipeline.Workspace)/drop/webapp-sp.parameters.json'
+              csmFile: '$(Pipeline.Workspace)/drop/webapp-sb.json'
+              csmParametersFile: '$(Pipeline.Workspace)/drop/webapp-sb.parameters.json'
               overrideParameters: '-hostingPlanName $(hostingPlanName) -location $(location) -webSiteName $(webSiteName) -skuName $(skuName)'
               deploymentMode: 'Incremental'
-# - stage: DeployToWebapp
-#   jobs:
-#   - deployment: DeployToWebapp
-#     environment: Production
-#     strategy:
-#       runOnce:
-#         deploy:
-#           steps:
+- stage: DeployToWebapp
+  jobs:
+  - deployment: DeployToWebapp
+    environment: Production
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - task: AzureWebApp@1
+            inputs:
+              azureSubscription: 'FreeOneYear(5f7292bd-e975-43ef-aa61-1871cb2a573d)'
+              appType: 'webAppLinux'
+              appName: '$(webSiteName)'
+              package: '$(Pipeline.Workspace)/drop/02-todo-web-application-h2/target/**/*.war'
