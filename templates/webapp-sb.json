@@ -52,7 +52,22 @@
       "metadata": {
         "description": "Location for all resources."
       }
-    }
+    },
+    "linuxFxVersion": {
+      "type": "string",
+      "defaultValue": "TOMCAT|9.0-java11",
+      "metadata": {
+        "description": "Default Linux version."
+      }
+    },
+     "alwaysOn": {
+       "type": "bool",
+        "defaultValue":  true,
+        "metadata": {
+        "description": "Always On version."
+      }
+     }
+
   },
   "resources": [
     {
@@ -85,7 +100,12 @@
       ],
       "properties": {
         "name": "[parameters('webSiteName')]",
-        "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('hostingPlanName'))]"
+        "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('hostingPlanName'))]",
+        "siteConfig": {
+                    "appSettings": [],
+                    "linuxFxVersion": "[parameters('linuxFxVersion')]",
+                    "alwaysOn": "[parameters('alwaysOn')]"
+                }
       },
       "resources": [
         {
