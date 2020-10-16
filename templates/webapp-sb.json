@@ -105,7 +105,9 @@
                     "appSettings": [],
                     "linuxFxVersion": "[parameters('linuxFxVersion')]",
                     "alwaysOn": "[parameters('alwaysOn')]"
-                }
+                },
+        "clientAffinityEnabled": false
+      }
       },
       "resources": [
         {
