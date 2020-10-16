@@ -62,7 +62,7 @@
     },
      "alwaysOn": {
        "type": "bool",
-        "defaultValue":  true,
+        "defaultValue": true,
         "metadata": {
         "description": "Always On version."
       }
