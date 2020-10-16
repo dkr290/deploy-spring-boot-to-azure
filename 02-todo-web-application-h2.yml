@@ -35,7 +35,7 @@ stages:
         PathtoPublish: '$(Build.ArtifactStagingDirectory)'
         ArtifactName: 'drop'
         publishLocation: 'Container'
-- stage: Create the templates for webapp
+- stage: Create-templates-for-webapp
   jobs:
   - job: App_Service_Json
     pool:
