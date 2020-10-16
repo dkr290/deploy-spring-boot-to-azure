@@ -54,7 +54,7 @@ stages:
         
 - stage: CreateWebapp
   jobs:
-  - deployment: DeployToWebapp
+  - deployment: CreateWebapp
     environment: Production
     strategy:
       runOnce:
