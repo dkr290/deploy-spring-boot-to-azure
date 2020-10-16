@@ -37,7 +37,7 @@ stages:
         publishLocation: 'Container'
 - stage: Create the templates for webapp
   jobs:
-  - job: App Service Json
+  - job: App_Service_Json
     pool:
       vmImage: 'ubuntu-latest'
     steps:
