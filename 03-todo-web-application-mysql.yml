@@ -50,3 +50,4 @@ stages:
               WebAppName: '$(WebAppName)'
               packageForLinux: '$(Pipeline.Workspace)/drop/03-todo-web-application-mysql/target/**/*.war'
               RuntimeStack: 'TOMCAT|9.0-java11'
+              AppSettings: '-RDS_HOSTNAME $(RDS_HOSTNAME) -RDS_DB_NAME $(RDS_DB_NAME) -RDS_PASSWORD $(RDS_PASSWORD) -RDS_PORT $(RDS_PORT) -RDS_USERNAME $(RDS_USERNAME)'
