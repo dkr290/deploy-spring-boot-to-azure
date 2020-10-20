@@ -23,6 +23,7 @@ stages:
         mavenAuthenticateFeed: false
         effectivePomSkip: false
         sonarQubeRunAnalysis: false
+
     - task: CopyFiles@2
       inputs:
         SourceFolder: '$(system.defaultworkingdirectory)'
@@ -33,3 +34,19 @@ stages:
         PathtoPublish: '$(Build.ArtifactStagingDirectory)'
         ArtifactName: 'drop'
         publishLocation: 'Container'
+- stage: CreateWebapp
+  jobs:
+  - deployment: CreateWebapp
+    environment: Production
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - task: AzureRmWebAppDeployment@4
+            inputs:
+              ConnectionType: 'AzureRM'
+              azureSubscription: 'FreeOneYear(5f7292bd-e975-43ef-aa61-1871cb2a573d)'
+              appType: 'webAppLinux'
+              WebAppName: '$(WebAppName)'
+              packageForLinux: '''$(Pipeline.Workspace)/drop/03-todo-web-application-mysql/target/**/*.war'''
+              RuntimeStack: 'TOMCAT|9.0-java11'
