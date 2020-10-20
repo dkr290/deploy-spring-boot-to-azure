@@ -29,7 +29,7 @@ stages:
         SourceFolder: '$(system.defaultworkingdirectory)'
         Contents: |
           **/*.jar
-          **/*.Dockerfile
+          **/Dockerfile
         TargetFolder: '$(Build.ArtifactStagingDirectory)'
     - task: PublishBuildArtifacts@1
       inputs:
