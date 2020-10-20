@@ -34,9 +34,9 @@ stages:
         PathtoPublish: '$(Build.ArtifactStagingDirectory)'
         ArtifactName: 'drop'
         publishLocation: 'Container'
-- stage: CreateWebapp
+- stage: DeployToWebapp
   jobs:
-  - deployment: CreateWebapp
+  - deployment: DeployToWebapp
     environment: Production
     strategy:
       runOnce:
