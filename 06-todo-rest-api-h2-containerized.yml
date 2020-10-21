@@ -52,6 +52,7 @@ stages:
         containerRegistry: 'azureRegistry'
         repository: 'javarepos'
         command: 'buildAndPush'
-        Dockerfile: '$(Pipeline.Workspace)/drop/Dockerfile'
+        Dockerfile: '$(Pipeline.Workspace)'
+        buildContext: '**/drop/'
         tags: 'todo-rest-api-$(Build.BuildId)'
 
