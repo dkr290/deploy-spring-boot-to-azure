@@ -8,35 +8,35 @@ trigger:
 - master
 
 stages:
-- stage: Build
-  jobs:
-  - job: Build_springboot_app
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
-    - task: Maven@3
-      inputs:
-        mavenPomFile: '06-todo-rest-api-mysql-containerized/pom.xml'
-        publishJUnitResults: true
-        testResultsFiles: '**/surefire-reports/TEST-*.xml'
-        javaHomeOption: 'JDKVersion'
-        mavenVersionOption: 'Default'
-        mavenAuthenticateFeed: false
-        effectivePomSkip: false
-        sonarQubeRunAnalysis: false
+# - stage: Build
+#   jobs:
+#   - job: Build_springboot_app
+#     pool:
+#       vmImage: 'ubuntu-latest'
+#     steps:
+#     - task: Maven@3
+#       inputs:
+#         mavenPomFile: '06-todo-rest-api-mysql-containerized/pom.xml'
+#         publishJUnitResults: true
+#         testResultsFiles: '**/surefire-reports/TEST-*.xml'
+#         javaHomeOption: 'JDKVersion'
+#         mavenVersionOption: 'Default'
+#         mavenAuthenticateFeed: false
+#         effectivePomSkip: false
+#         sonarQubeRunAnalysis: false
 
-    - task: CopyFiles@2
-      inputs:
-        SourceFolder: '$(system.defaultworkingdirectory)/06-todo-rest-api-mysql-containerized/'
-        Contents: |
-          **/*.jar
-          **/Dockerfile
-        TargetFolder: '$(Build.ArtifactStagingDirectory)'
-    - task: PublishBuildArtifacts@1
-      inputs:
-        PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-        ArtifactName: 'drop'
-        publishLocation: 'Container'
+#     - task: CopyFiles@2
+#       inputs:
+#         SourceFolder: '$(system.defaultworkingdirectory)/06-todo-rest-api-mysql-containerized/'
+#         Contents: |
+#           **/*.jar
+#           **/Dockerfile
+#         TargetFolder: '$(Build.ArtifactStagingDirectory)'
+#     - task: PublishBuildArtifacts@1
+#       inputs:
+#         PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+#         ArtifactName: 'drop'
+#         publishLocation: 'Container'
 
 - stage: PackageDokerContainer
   jobs:
@@ -49,7 +49,6 @@ stages:
         containerRegistry: 'azureRegistry'
         repository: 'javarepos'
         command: 'buildAndPush'
-        Dockerfile: '$(Build.ArtifactStagingDirectory)'
-        buildContext: '**/drop'
+        Dockerfile: '$(Pipeline.Workspace)/drop/Dockerfile'
         tags: 'todo-rest-api-$(Build.BuildId)'
 
