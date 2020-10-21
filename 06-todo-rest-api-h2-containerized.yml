@@ -28,8 +28,8 @@ stages:
 
     - task: Docker@2
       inputs:
-        containerRegistry: 'azureRegistry'
-        repository: 'javarepos'
+        containerRegistry: 'dockerhub'
+        repository: 'java-todo-rest-api'
         command: 'buildAndPush'
         Dockerfile: '$(Build.SourcesDirectory)/06-todo-rest-api-mysql-containerized/Dockerfile'
         tags: 'todo-rest-api-$(Build.BuildId)'
