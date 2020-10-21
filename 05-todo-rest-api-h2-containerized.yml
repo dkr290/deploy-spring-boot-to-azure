@@ -1,0 +1,37 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- master
+
+
+stages:
+- stage: Build
+  jobs:
+  - job: Build_springboot_app_docker
+    pool: onPremises
+      
+    steps:
+    - task: Maven@3
+      inputs:
+        mavenPomFile: '05-todo-rest-api-h2-containerized/pom.xml'
+        publishJUnitResults: true
+        testResultsFiles: '**/surefire-reports/TEST-*.xml'
+        javaHomeOption: 'JDKVersion'
+        mavenVersionOption: 'Default'
+        mavenAuthenticateFeed: false
+        effectivePomSkip: false
+        sonarQubeRunAnalysis: false
+    - task: Docker@2
+      inputs:
+        containerRegistry: 'dockerhub'
+        command: 'login'
+    - task: Docker@2
+      inputs:
+        containerRegistry: 'dockerhub'
+        repository: '$(ContainerRepository)'
+        command: 'buildAndPush'
+        Dockerfile: '$(Build.SourcesDirectory)/05-todo-rest-api-h2-containerized/Dockerfile'
+        tags: '$(Build.BuildId)'
