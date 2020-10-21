@@ -35,5 +35,5 @@ stages:
         repository: '$(ContainerRepository)'
         command: 'buildAndPush'
         Dockerfile: '$(Build.SourcesDirectory)/06-todo-rest-api-mysql-containerized/Dockerfile'
-        tags: 'todo-rest-api-$(Build.BuildId)'
+        tags: '$(Build.BuildId)'
 
