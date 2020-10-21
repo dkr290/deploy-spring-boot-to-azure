@@ -26,7 +26,7 @@ stages:
 
     - task: CopyFiles@2
       inputs:
-        SourceFolder: '$(system.defaultworkingdirectory)'
+        SourceFolder: '$(system.defaultworkingdirectory)/06-todo-rest-api-mysql-containerized/'
         Contents: |
           **/*.jar
           **/Dockerfile
