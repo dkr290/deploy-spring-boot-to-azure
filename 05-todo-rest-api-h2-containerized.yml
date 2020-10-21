@@ -35,3 +35,20 @@ stages:
         command: 'buildAndPush'
         Dockerfile: '$(Build.SourcesDirectory)/05-todo-rest-api-h2-containerized/Dockerfile'
         tags: '$(Build.BuildId)'
+- stage: DeployToWebapp
+  jobs:
+  - deployment: DeployToWebapp
+    environment: Production
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - task: AzureRmWebAppDeployment@4
+            inputs:
+              ConnectionType: 'AzureRM'
+              azureSubscription: 'FreeOneYear(5f7292bd-e975-43ef-aa61-1871cb2a573d)'
+              appType: 'webAppContainer'
+              WebAppName: '$(WebAppName)'
+              DockerNamespace: 'docker.io'
+              DockerRepository: 'danikr238/java-todo-rest-api'
+              DockerImageTag: '$(Build.BuildId)'
