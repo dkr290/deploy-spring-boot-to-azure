@@ -7,10 +7,11 @@
 trigger:
 - master
 
+
 stages:
 - stage: Build
   jobs:
-  - job: Build_springboot_app
+  - job: Build_springboot_app_docker
     pool:
       vmImage: 'ubuntu-latest'
     steps:
@@ -25,33 +26,11 @@ stages:
         effectivePomSkip: false
         sonarQubeRunAnalysis: false
 
-    - task: CopyFiles@2
-      inputs:
-        SourceFolder: '$(system.defaultworkingdirectory)/06-todo-rest-api-mysql-containerized/'
-        Contents: |
-          **/*.jar
-          **/Dockerfile
-        TargetFolder: '$(Build.ArtifactStagingDirectory)'
-    - task: PublishBuildArtifacts@1
-      inputs:
-        PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-        ArtifactName: 'drop'
-        publishLocation: 'Container'
-    - bash: ls -R  $(System.DefaultWorkingDirectory)
-    - bash: ls -R $(Build.ArtifactStagingDirectory)
-    - bash: ls -R $(Pipeline.Workspace)
-
-- stage: PackageDokerContainer
-  jobs:
-  - job: DockerContainer
-    pool:
-      vmImage: 'ubuntu-latest'
-    steps:
     - task: Docker@2
       inputs:
         containerRegistry: 'azureRegistry'
         repository: 'javarepos'
         command: 'buildAndPush'
-        Dockerfile: '$(Pipeline.Workspace)/drop/Dockerfile'
+        Dockerfile: 'Dockerfile'
         tags: 'todo-rest-api-$(Build.BuildId)'
 
