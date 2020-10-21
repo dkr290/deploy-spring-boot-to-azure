@@ -31,6 +31,6 @@ stages:
         containerRegistry: 'azureRegistry'
         repository: 'javarepos'
         command: 'buildAndPush'
-        Dockerfile: 'Dockerfile'
+        Dockerfile: '$(Build.SourcesDirectory)/06-todo-rest-api-mysql-containerized/Dockerfile'
         tags: 'todo-rest-api-$(Build.BuildId)'
 
